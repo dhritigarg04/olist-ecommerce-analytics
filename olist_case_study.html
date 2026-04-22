@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Olist E-Commerce | Strategy Analytics Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --navy:#1B3A6B; --teal:#00A896; --amber:#F4A261;
+    --red:#E63946;  --grey:#8D99AE; --light:#F0F4F8;
+    --white:#FFFFFF; --ink:#1a1a2e;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:'IBM Plex Sans',sans-serif; background:var(--white);
+       color:var(--ink); line-height:1.7; font-size:15px;}
+
+  /* ── HERO ── */
+  .hero{
+    background: linear-gradient(135deg, var(--navy) 0%, #0d2244 60%, #0a1628 100%);
+    color:white; padding:80px 60px 64px;
+    position:relative; overflow:hidden;
+  }
+  .hero::before{
+    content:''; position:absolute; top:-80px; right:-80px;
+    width:420px; height:420px; border-radius:50%;
+    background:radial-gradient(circle, rgba(0,168,150,.18) 0%, transparent 70%);
+  }
+  .hero::after{
+    content:''; position:absolute; bottom:-60px; left:30%;
+    width:260px; height:260px; border-radius:50%;
+    background:radial-gradient(circle, rgba(244,162,97,.10) 0%, transparent 70%);
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:3px;
+    text-transform:uppercase; color:var(--teal); margin-bottom:18px;
+  }
+  .hero h1{
+    font-family:'Playfair Display',serif; font-size:clamp(32px,4vw,52px);
+    font-weight:900; line-height:1.1; max-width:760px; margin-bottom:20px;
+  }
+  .hero h1 span{color:var(--amber);}
+  .hero-sub{font-size:15px; color:rgba(255,255,255,.72); max-width:600px; margin-bottom:36px;}
+  .meta-row{display:flex; gap:32px; flex-wrap:wrap;}
+  .meta-item{display:flex; flex-direction:column;}
+  .meta-label{font-size:10px; letter-spacing:2px; text-transform:uppercase;
+               color:var(--teal); margin-bottom:3px;}
+  .meta-value{font-size:13px; color:rgba(255,255,255,.85); font-weight:500;}
+
+  /* ── KPI STRIP ── */
+  .kpi-strip{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:0; background:var(--navy);
+  }
+  .kpi-card{
+    padding:28px 24px; text-align:center; border-right:1px solid rgba(255,255,255,.08);
+  }
+  .kpi-card:last-child{border-right:none;}
+  .kpi-value{font-family:'Playfair Display',serif; font-size:26px; font-weight:700;
+              color:var(--amber); display:block; margin-bottom:4px;}
+  .kpi-label{font-size:10px; letter-spacing:1.5px; text-transform:uppercase;
+              color:rgba(255,255,255,.55);}
+
+  /* ── LAYOUT ── */
+  .container{max-width:980px; margin:0 auto; padding:0 40px;}
+  section{padding:56px 0;}
+  section + section{border-top:1px solid var(--light);}
+
+  /* ── TYPOGRAPHY ── */
+  h2{
+    font-family:'Playfair Display',serif; font-size:28px;
+    color:var(--navy); margin-bottom:8px;
+  }
+  .section-tag{
+    font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:3px;
+    text-transform:uppercase; color:var(--teal); margin-bottom:10px; display:block;
+  }
+  h3{font-size:16px; color:var(--navy); font-weight:600; margin:28px 0 8px;}
+  p{margin-bottom:14px; color:#333; max-width:720px;}
+  ul,ol{padding-left:22px; margin-bottom:14px;}
+  li{margin-bottom:6px; color:#333;}
+  strong{color:var(--navy);}
+
+  /* ── PROBLEM STATEMENT BOX ── */
+  .problem-box{
+    background:var(--light); border-left:4px solid var(--navy);
+    padding:28px 32px; border-radius:0 8px 8px 0; margin:24px 0;
+  }
+  .problem-box p{margin:0; font-size:16px; line-height:1.8; max-width:100%;}
+
+  /* ── DATASET TABLE ── */
+  .table-wrap{overflow-x:auto; margin:24px 0;}
+  table{width:100%; border-collapse:collapse; font-size:13px;}
+  thead th{
+    background:var(--navy); color:white; padding:10px 14px;
+    text-align:left; font-weight:500; letter-spacing:.5px;
+  }
+  tbody tr:nth-child(even){background:var(--light);}
+  tbody td{padding:9px 14px; border-bottom:1px solid #e8edf2;}
+  td.tag{
+    font-family:'IBM Plex Mono',monospace; font-size:11px;
+    color:var(--teal); background:rgba(0,168,150,.07);
+    border-radius:4px; white-space:nowrap;
+  }
+
+  /* ── CHART INSIGHT CARDS ── */
+  .chart-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin:28px 0;}
+  @media(max-width:680px){.chart-grid{grid-template-columns:1fr;}}
+  .chart-card{
+    background:var(--light); border-radius:10px; padding:26px 24px;
+    border-top:3px solid var(--teal);
+  }
+  .chart-card.amber{border-top-color:var(--amber);}
+  .chart-card.red{border-top-color:var(--red);}
+  .chart-card.navy{border-top-color:var(--navy);}
+  .chart-title{font-size:13px; font-weight:600; color:var(--navy);
+                margin-bottom:10px; display:flex; align-items:center; gap:8px;}
+  .chart-num{
+    background:var(--navy); color:white; width:22px; height:22px;
+    border-radius:50%; font-size:10px; display:flex; align-items:center;
+    justify-content:center; font-weight:700; flex-shrink:0;
+  }
+  .chart-card p{font-size:13px; margin:0; max-width:100%; line-height:1.65;}
+
+  /* ── INSIGHT BLOCKS ── */
+  .insight-block{
+    background:white; border:1px solid #e0e7ef; border-radius:10px;
+    padding:28px 30px; margin-bottom:20px;
+  }
+  .insight-icon{font-size:22px; margin-bottom:10px; display:block;}
+  .insight-block h3{margin-top:0; font-size:15px;}
+  .insight-block ul{margin:10px 0 0; padding-left:20px;}
+  .insight-block li{font-size:13.5px; margin-bottom:7px; color:#2c3e50;}
+
+  /* ── RECOMMENDATIONS ── */
+  .rec-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:24px;}
+  @media(max-width:680px){.rec-grid{grid-template-columns:1fr;}}
+  .rec-card{
+    background:var(--navy); color:white; border-radius:10px; padding:26px 24px;
+  }
+  .rec-card h4{font-size:14px; color:var(--amber); margin-bottom:10px; font-weight:600;}
+  .rec-card p{font-size:13px; color:rgba(255,255,255,.80); margin:0; max-width:100%;}
+
+  /* ── RESUME BULLETS ── */
+  .resume-box{
+    background:#f8fafc; border:1.5px solid var(--navy); border-radius:8px;
+    padding:28px 32px; font-family:'IBM Plex Mono',monospace; font-size:12.5px;
+  }
+  .resume-box ul{list-style:none; padding:0;}
+  .resume-box li{
+    padding:8px 0; border-bottom:1px dashed #d0dae8; color:#1a1a2e;
+    line-height:1.6;
+  }
+  .resume-box li:last-child{border-bottom:none;}
+  .resume-box li::before{content:"▸ "; color:var(--teal); font-weight:bold;}
+
+  /* ── INTERVIEW SCRIPT ── */
+  .script-box{
+    background:linear-gradient(135deg,#f0f7ff,#e8f4f0);
+    border-radius:10px; padding:32px; position:relative; margin-top:20px;
+  }
+  .script-box::before{
+    content:'"'; position:absolute; top:10px; left:20px;
+    font-family:'Playfair Display',serif; font-size:80px;
+    color:rgba(0,168,150,.15); line-height:1;
+  }
+  .script-box p{font-size:14.5px; line-height:1.85; max-width:100%;
+                 color:#1a1a2e; padding-left:10px;}
+
+  /* ── POWERBI ── */
+  .pbi-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+             gap:16px; margin-top:24px;}
+  .pbi-card{
+    border:1.5px solid var(--light); border-radius:8px; padding:20px 18px;
+    text-align:center; transition:border-color .2s;
+  }
+  .pbi-card:hover{border-color:var(--teal);}
+  .pbi-icon{font-size:26px; margin-bottom:8px; display:block;}
+  .pbi-card h4{font-size:12px; font-weight:600; color:var(--navy); margin-bottom:6px;}
+  .pbi-card p{font-size:11.5px; color:var(--grey); margin:0; max-width:100%;}
+
+  /* ── FOOTER ── */
+  footer{
+    background:var(--navy); color:rgba(255,255,255,.5); text-align:center;
+    padding:28px; font-size:12px; font-family:'IBM Plex Mono',monospace;
+  }
+  footer span{color:var(--teal);}
+</style>
+</head>
+<body>
+
+<!-- ══════════ HERO ══════════ -->
+<div class="hero">
+  <div class="eyebrow">● Strategy Analytics Case Study · Portfolio Project</div>
+  <h1>Decoding Brazilian<br/>E-Commerce:<br/><span>A Strategic Analytics<br/>Deep Dive</span></h1>
+  <p class="hero-sub">Analysing Olist's marketplace performance across 100K+ transactions to surface revenue drivers, operational gaps, and growth opportunities.</p>
+  <div class="meta-row">
+    <div class="meta-item"><span class="meta-label">Dataset</span><span class="meta-value">Olist Brazilian E-Commerce (Kaggle)</span></div>
+    <div class="meta-item"><span class="meta-label">Period</span><span class="meta-value">2016 – 2018</span></div>
+    <div class="meta-item"><span class="meta-label">Tools</span><span class="meta-value">Python · SQL · Power BI · Excel</span></div>
+    <div class="meta-item"><span class="meta-label">Role</span><span class="meta-value">Independent Analyst</span></div>
+  </div>
+</div>
+
+<!-- ══════════ KPI STRIP ══════════ -->
+<div class="kpi-strip">
+  <div class="kpi-card"><span class="kpi-value">R$ 13.6M+</span><span class="kpi-label">Total Revenue</span></div>
+  <div class="kpi-card"><span class="kpi-value">96,478</span><span class="kpi-label">Total Orders</span></div>
+  <div class="kpi-card"><span class="kpi-value">96K+</span><span class="kpi-label">Unique Customers</span></div>
+  <div class="kpi-card"><span class="kpi-value">3,095</span><span class="kpi-label">Active Sellers</span></div>
+  <div class="kpi-card"><span class="kpi-value">4.09 / 5</span><span class="kpi-label">Avg Review Score</span></div>
+  <div class="kpi-card"><span class="kpi-value">~93%</span><span class="kpi-label">On-Time Delivery</span></div>
+</div>
+
+<!-- ══════════ MAIN CONTENT ══════════ -->
+<div class="container">
+
+  <!-- 1. PROBLEM STATEMENT -->
+  <section>
+    <span class="section-tag">01 · Problem Statement</span>
+    <h2>What Business Question Are We Solving?</h2>
+    <div class="problem-box">
+      <p>Olist, a Brazilian marketplace aggregator, connects thousands of small retailers to major e-commerce platforms. With rapid market expansion between 2016–2018, the leadership team needs to understand: <strong>Which categories, cities, and customer segments are driving growth — and where are the operational and revenue leakage risks that need addressing?</strong></p>
+    </div>
+    <p>This analysis transforms 9 relational tables into a unified analytical layer, then extracts KPIs, trend narratives, and strategic recommendations — structured as an executive-ready case study.</p>
+    <p>Specifically, this project investigates:</p>
+    <ul>
+      <li>Revenue and order volume momentum across 20 months of trading</li>
+      <li>Geographic concentration risk in the customer base</li>
+      <li>Product category mix and monetisation efficiency</li>
+      <li>Delivery performance vs. customer expectations</li>
+      <li>Payment behaviour and average order value evolution</li>
+    </ul>
+  </section>
+
+  <!-- 2. DATASET UNDERSTANDING -->
+  <section>
+    <span class="section-tag">02 · Dataset Understanding</span>
+    <h2>The Data Architecture</h2>
+    <p>The Olist dataset contains <strong>9 relational CSV tables</strong> spanning orders, customers, products, sellers, payments, logistics, and reviews — covering ~100K orders from September 2016 to October 2018.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Table</th><th>Rows (approx.)</th><th>Key Columns Used</th><th>Role in Analysis</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag">olist_orders</span></td><td>99,441</td><td>order_id, status, purchase_timestamp, delivery dates</td><td>Spine of all analysis; defines time & fulfillment</td></tr>
+          <tr><td><span class="tag">olist_order_items</span></td><td>112,650</td><td>order_id, product_id, seller_id, price, freight</td><td>Revenue granularity per item/order</td></tr>
+          <tr><td><span class="tag">olist_customers</span></td><td>99,441</td><td>customer_id, city, state</td><td>Geographic segmentation</td></tr>
+          <tr><td><span class="tag">olist_order_payments</span></td><td>103,886</td><td>order_id, payment_type, payment_value</td><td>Revenue & payment behaviour</td></tr>
+          <tr><td><span class="tag">olist_products</span></td><td>32,951</td><td>product_id, category_name</td><td>Category-level performance</td></tr>
+          <tr><td><span class="tag">olist_sellers</span></td><td>3,095</td><td>seller_id, city, state</td><td>Supply-side geography</td></tr>
+          <tr><td><span class="tag">olist_order_reviews</span></td><td>99,224</td><td>review_score, review_comment</td><td>Customer satisfaction proxy</td></tr>
+          <tr><td><span class="tag">product_category_translation</span></td><td>71</td><td>category_name → English</td><td>Readable category labels</td></tr>
+          <tr><td><span class="tag">olist_geolocation</span></td><td>1M+</td><td>zip_code, lat, lng, city</td><td>Mapping & geo-enrichment</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Master table approach:</strong> All 9 tables are joined on order_id, customer_id, product_id, and seller_id to create a single analytical layer of ~110K rows, enabling cross-dimensional analysis in one pass.</p>
+  </section>
+
+  <!-- 3. CHART INSIGHTS -->
+  <section>
+    <span class="section-tag">03 · Chart-by-Chart Insights</span>
+    <h2>What the Visualisations Reveal</h2>
+
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-title"><span class="chart-num">1</span> Monthly Revenue Trend</div>
+        <p>Revenue grew from under R$500K/month in early 2017 to a peak of over R$1.2M in November 2017 — a <strong>140% spike</strong> aligned with Black Friday. The growth trajectory then stabilised into 2018, suggesting market maturation rather than continued hypergrowth. This pattern mirrors classic e-commerce S-curve adoption in emerging markets.</p>
+      </div>
+      <div class="chart-card amber">
+        <div class="chart-title"><span class="chart-num">2</span> Monthly Order Volume</div>
+        <p>Order counts track closely with revenue, but the AOV (Chart 9) rising simultaneously tells a richer story — Olist's customer base is not just growing in size, they are <strong>spending more per visit</strong>. The November 2017 spike is even more pronounced in order volume, confirming Black Friday as the platform's single biggest demand event.</p>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title"><span class="chart-num">3</span> Top Cities by Customer Base</div>
+        <p>São Paulo alone accounts for over <strong>15,000+ unique customers</strong> — more than the next 4 cities combined. Rio de Janeiro and Belo Horizonte are distant second and third. This severe geographic concentration in the Southeast corridor exposes Olist to regional demand risk and signals a large, <strong>underserved market in Brazil's interior states</strong>.</p>
+      </div>
+      <div class="chart-card navy">
+        <div class="chart-title"><span class="chart-num">4</span> Top Product Categories</div>
+        <p><em>Bed, Bath & Table</em> and <em>Health & Beauty</em> lead in sales volume, indicating that <strong>everyday lifestyle goods</strong> — not electronics — are driving marketplace throughput. This differs from global e-commerce norms where electronics dominate, and suggests Olist's value proposition resonates most in home and personal care verticals.</p>
+      </div>
+      <div class="chart-card amber">
+        <div class="chart-title"><span class="chart-num">5</span> Top Customers by Revenue</div>
+        <p>The top 10 customers contribute disproportionately high lifetime values. The distribution suggests the presence of <strong>B2B buyers or power users</strong> placing high-value repeat orders — a segment that warrants dedicated retention and loyalty investment, potentially through a VIP or wholesale programme.</p>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title"><span class="chart-num">6</span> Payment Value Distribution</div>
+        <p>The distribution is <strong>right-skewed</strong>, with a median around R$100–120 but a long tail extending to R$3,000+. This skew means the mean overestimates typical spend — a critical nuance for inventory planning and pricing strategy. The bulk of transactions cluster in the R$50–300 range, defining the true "sweet spot" of the marketplace.</p>
+      </div>
+      <div class="chart-card red">
+        <div class="chart-title"><span class="chart-num">7</span> Delivery Delay Analysis</div>
+        <p>Approximately <strong>7–8% of orders arrive late</strong> versus the promised date — a relatively strong performance for a marketplace spanning Brazil's vast geography. However, late deliveries correlate with lower review scores (visible in Chart 10 cross-analysis), making this a <strong>direct customer satisfaction lever</strong>. Early deliveries are rewarded with 4.5+ ratings on average.</p>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title"><span class="chart-num">8</span> Order Status Distribution</div>
+        <p>"Delivered" accounts for <strong>over 96%</strong> of all orders — a strong fulfillment health signal. However, the ~625 cancelled orders and ~609 unavailable orders represent recoverable revenue. Investigating the cancellation drivers (stock-outs, price issues, customer indecision) could unlock a meaningful conversion improvement.</p>
+      </div>
+      <div class="chart-card navy">
+        <div class="chart-title"><span class="chart-num">9</span> Average Order Value Trend</div>
+        <p>AOV climbs from approximately R$140 in early 2017 to over R$175 by mid-2018 — a ~25% increase — suggesting that either <strong>higher-value product categories are gaining share</strong>, or customers are adding more items per basket over time. This is a key indicator of marketplace maturation and customer trust development.</p>
+      </div>
+      <div class="chart-card amber">
+        <div class="chart-title"><span class="chart-num">10</span> Review Score Distribution</div>
+        <p>A striking <strong>bimodal distribution</strong>: customers either rate Olist 5-stars (~57%) or 1-star (~11%), with limited middle-ground scoring. This polarisation signals that experiences are rarely "okay" — they are either delightful or deeply disappointing. The operational trigger for negative reviews is almost always <strong>delivery failure or product misrepresentation</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. BUSINESS INSIGHTS -->
+  <section>
+    <span class="section-tag">04 · Business Insights</span>
+    <h2>Strategic Intelligence from the Data</h2>
+
+    <div class="insight-block">
+      <span class="insight-icon">👤</span>
+      <h3>Customer Behaviour Insights</h3>
+      <ul>
+        <li>The customer base is almost entirely first-time buyers — repeat purchase rates appear very low, a known structural challenge in Brazilian e-commerce. Retention programmes are a high-ROI opportunity.</li>
+        <li>Geographic concentration in São Paulo (>15% of customers) creates resilience risk if regional economic conditions shift. Diversification into Tier-2 cities could reduce this dependency.</li>
+        <li>The bimodal review pattern suggests experience quality is highly variable across sellers, not uniformly poor — pointing to a seller quality management problem rather than a platform design issue.</li>
+      </ul>
+    </div>
+
+    <div class="insight-block">
+      <span class="insight-icon">📈</span>
+      <h3>Sales &amp; Revenue Insights</h3>
+      <ul>
+        <li>The November 2017 Black Friday event generated the single largest revenue month — but growth did not meaningfully accelerate post-event. This suggests the event attracted deal-seekers rather than converting loyal repeat customers.</li>
+        <li>The top 3 product categories (Bed/Bath/Table, Health/Beauty, Sports/Leisure) collectively account for ~30%+ of volume — a healthy diversification compared to single-category-dominated platforms.</li>
+        <li>Rising AOV (+25% over 18 months) is a strong monetisation signal. If sustained, it implies each incremental customer is worth more than the cohort before — a positive unit economics story.</li>
+      </ul>
+    </div>
+
+    <div class="insight-block">
+      <span class="insight-icon">🚚</span>
+      <h3>Operational &amp; Logistics Insights</h3>
+      <ul>
+        <li>With ~93% on-time delivery, Olist outperforms many comparable emerging-market marketplaces. However, the 7% late delivery rate disproportionately drives negative reviews, making last-mile reliability the single biggest lever for NPS improvement.</li>
+        <li>Freight costs embedded in order items suggest significant regional freight disparities — sellers in the interior face higher logistics costs, which may be structurally limiting their price competitiveness vs. São Paulo-based sellers.</li>
+        <li>Order processing gaps (approved_at delays vs. purchase_timestamp) suggest bottlenecks in payment gateway confirmation, which could be adding friction and increasing cart abandonment.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5. RECOMMENDATIONS -->
+  <section>
+    <span class="section-tag">05 · Strategic Recommendations</span>
+    <h2>Four Priority Actions for Growth</h2>
+    <div class="rec-grid">
+      <div class="rec-card">
+        <h4>🎯 01 · Launch a Retention Engine</h4>
+        <p>With near-zero repeat purchase rates, a structured post-purchase CRM programme (personalised re-engagement emails, loyalty credit on 2nd order) could increase LTV by 40–60% based on comparable marketplace benchmarks. Target: top 20% of spenders first.</p>
+      </div>
+      <div class="rec-card">
+        <h4>🗺️ 02 · Geographic Expansion Strategy</h4>
+        <p>Curitiba, Fortaleza, Manaus, and Recife show demand indicators but low seller density. A targeted seller acquisition programme in these cities would reduce freight times, cut delivery costs, and unlock a ~25M person addressable customer base currently underserved.</p>
+      </div>
+      <div class="rec-card">
+        <h4>📦 03 · Seller Quality Tiering</h4>
+        <p>Institute a transparent seller quality scoring system (delivery SLA, review score, cancellation rate) with tiered benefits — better search placement for top-tier sellers, remediation support for at-risk sellers. This would shift the review distribution away from the polarised 1-star/5-star pattern.</p>
+      </div>
+      <div class="rec-card">
+        <h4>💳 04 · AOV Growth via Bundling</h4>
+        <p>The R$100–300 purchase sweet spot suggests customers are price-conscious but not bargain-only buyers. Cross-category bundling recommendations (e.g., Home + Personal Care) and instalment payment promotion (Brazil's strong "parcelamento" culture) could push AOV from R$175 toward R$220+ without acquiring new customers.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. RESUME BULLETS -->
+  <section>
+    <span class="section-tag">06 · Resume-Ready Deliverables</span>
+    <h2>Resume Bullet Points</h2>
+    <div class="resume-box">
+      <ul>
+        <li>Conducted end-to-end e-commerce analytics on 100K+ transactions across 9 relational datasets using Python (pandas, matplotlib, seaborn), identifying a 140% Black Friday revenue spike and 25% AOV growth trend across 18 months</li>
+        <li>Engineered a unified master analytical table by merging 9 Olist datasets on 4 join keys; performed data cleaning, datetime parsing, outlier handling, and delivery delay computation to ensure analytical integrity</li>
+        <li>Developed 10 presentation-quality visualisations covering revenue trends, geographic distribution, product category mix, customer behaviour, and logistics KPIs, structured as an executive case study</li>
+        <li>Derived strategic recommendations including a seller quality tiering framework, geographic expansion roadmap for Tier-2 Brazilian cities, and a customer retention CRM strategy — framed around measurable business impact</li>
+        <li>Designed a 5-page Power BI dashboard blueprint mapping KPI cards, time-series trends, geographic heat maps, and category bar charts to enable self-serve analytics for non-technical stakeholders</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 7. INTERVIEW SCRIPT -->
+  <section>
+    <span class="section-tag">07 · Interview Preparation</span>
+    <h2>45–60 Second Interview Explanation</h2>
+    <div class="script-box">
+      <p>
+        "For this project, I took Olist's publicly available Brazilian e-commerce dataset — about 100,000 orders across 9 tables — and built a full analytical case study from scratch using Python. I first merged and cleaned the data to create a single master table, then computed headline KPIs: total revenue, average order value, on-time delivery rates, and review scores. I generated 10 visualisations covering everything from monthly revenue trends to delivery delay distributions and top product categories. The most interesting finding was a bimodal review score pattern — customers almost never rated Olist as "average"; it was either five stars or one star — which pointed directly to a seller quality consistency problem rather than a platform design issue. I used that insight to frame four strategic recommendations, including a seller tiering system and a geographic expansion roadmap for underserved Tier-2 cities. The whole project is structured like a consulting deliverable — with problem statement, data architecture, visual analysis, and board-level recommendations — which is the kind of output I'd expect to produce at Frost &amp; Sullivan."
+      </p>
+    </div>
+  </section>
+
+  <!-- 8. POWER BI -->
+  <section>
+    <span class="section-tag">08 · Power BI Dashboard Blueprint</span>
+    <h2>Suggested Dashboard Components</h2>
+    <p>Import the <code>summary_*.csv</code> files exported by the Python script into Power BI, or connect directly to the raw CSVs and recreate the merge logic using Power Query.</p>
+    <div class="pbi-grid">
+      <div class="pbi-card">
+        <span class="pbi-icon">📊</span>
+        <h4>Page 1 · Executive Summary</h4>
+        <p>KPI cards: Total Revenue, Orders, Customers, AOV, On-Time %. Add a date slicer for year/month filtering.</p>
+      </div>
+      <div class="pbi-card">
+        <span class="pbi-icon">📈</span>
+        <h4>Page 2 · Revenue Analytics</h4>
+        <p>Line chart: Monthly Revenue + AOV dual-axis. Area chart for order volume. Bookmark for YoY toggle.</p>
+      </div>
+      <div class="pbi-card">
+        <span class="pbi-icon">🗺️</span>
+        <h4>Page 3 · Geographic Heatmap</h4>
+        <p>Azure Maps or Bing Map visual: bubbles sized by customer count, coloured by avg review score per state.</p>
+      </div>
+      <div class="pbi-card">
+        <span class="pbi-icon">📦</span>
+        <h4>Page 4 · Category & Product Mix</h4>
+        <p>Horizontal bar: Top 15 categories by revenue and volume. Treemap for category share. Category slicer.</p>
+      </div>
+      <div class="pbi-card">
+        <span class="pbi-icon">🚚</span>
+        <h4>Page 5 · Logistics Dashboard</h4>
+        <p>Scatter: Delivery delay vs. review score. Donut: On-time split. Bar: Average delay by seller state.</p>
+      </div>
+      <div class="pbi-card">
+        <span class="pbi-icon">⭐</span>
+        <h4>Page 6 · Customer Satisfaction</h4>
+        <p>Bar chart: Review score distribution. Line: Monthly avg review score trend. Word cloud of review comments.</p>
+      </div>
+    </div>
+    <br/>
+    <p><strong>Pro tip for interviews:</strong> Add Row-Level Security so each "seller manager" can only see their own seller's data — this demonstrates enterprise Power BI knowledge that stands out in BA/DA interviews.</p>
+  </section>
+
+</div>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <span>Decoding Brazilian E-Commerce</span> · Strategy Analytics Case Study ·
+  Built with Python, pandas, matplotlib · Dataset: <span>Olist / Kaggle</span>
+</footer>
+
+</body>
+</html>
