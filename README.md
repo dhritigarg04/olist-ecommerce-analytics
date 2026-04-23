@@ -107,7 +107,7 @@ olist-ecommerce-analytics/
 
 **1. Clone the repository**
 ```bash
-git clone https://github.com/YOURUSERNAME/olist-ecommerce-analytics.git
+git clone https://github.com/dhritigarg04/olist-ecommerce-analytics.git
 ```
 
 **2. Install dependencies**
